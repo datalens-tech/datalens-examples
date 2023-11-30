@@ -1,0 +1,156 @@
+version: "3.7"
+
+services:
+  traefik:
+    image: traefik:2.10.5
+    container_name: traefik
+    depends_on:
+      - step-ca
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.api.rule=Host(`traefik.${DOMAIN}`)'
+      - 'traefik.http.routers.api.entrypoints=HTTPS'
+      - 'traefik.http.routers.api.service=api@internal'
+      - 'traefik.http.middlewares.authelia.forwardauth.address=http://authelia:9091/api/verify?rd=https%3A%2F%2Fauthelia.${DOMAIN}%2F'
+      - 'traefik.http.middlewares.authelia.forwardauth.trustforwardheader=true'
+      - 'traefik.http.middlewares.authelia.forwardauth.authresponseheaders=Remote-User,Remote-Groups,Remote-Name,Remote-Email'
+    command:
+      - '--api'
+      - '--serverstransport.insecureskipverify=true'
+      - '--providers.docker=true'
+      - '--providers.docker.exposedbydefault=false'
+      - '--entrypoints.HTTPS=true'
+      - '--entrypoints.HTTPS.address=:443'
+      - '--entrypoints.HTTPS.http.tls=true'
+      - '--entrypoints.HTTPS.http.tls.certresolver=step-ca'
+      - '--certificatesresolvers.step-ca.acme.caserver=https://step-ca:9000/acme/acme/directory'
+      - '--certificatesresolvers.step-ca.acme.email=acme@${DOMAIN}'
+      - '--certificatesresolvers.step-ca.acme.tlschallenge=true'
+      - '--certificatesresolvers.step-ca.acme.storage=/acme/acme.json'
+      - '--log=true'
+      - '--log.level=DEBUG'
+    environment:
+      - LEGO_CA_CERTIFICATES=/acme/certs/root_ca.crt
+    networks:
+      internal-net:
+        aliases:
+          - traefik
+          - traefik.${DOMAIN}
+          - authelia.${DOMAIN}
+          - ca.${DOMAIN}
+          - ${DOMAIN}
+    ports:
+      - 443:443
+    volumes:
+      - acme-certs:/acme
+      - /var/run/docker.sock:/var/run/docker.sock
+  
+  authelia:
+    image: authelia/authelia:4.37.5
+    container_name: authelia
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.authelia.rule=Host(`authelia.${DOMAIN}`)'
+      - 'traefik.http.routers.authelia.entrypoints=HTTPS'
+    environment:
+      - AUTHELIA_DEFAULT_REDIRECTION_URL=https://${DOMAIN}
+      - AUTHELIA_SESSION_DOMAIN=${DOMAIN}
+      - AUTHELIA_JWT_SECRET=${AUTHELIA_JWT_SECRET}
+      - AUTHELIA_SESSION_SECRET=${AUTHELIA_SESSION_SECRET}
+      - AUTHELIA_STORAGE_ENCRYPTION_KEY=${AUTHELIA_STORAGE_ENCRYPTION_KEY}
+      - TZ=Europe/Moscow
+    networks:
+      - internal-net
+    volumes:
+      - ./authelia:/config
+      - authelia-data:/data
+    expose:
+      - 9091
+  
+  step-ca:
+    image: smallstep/step-ca:0.24.2
+    container_name: step-ca
+    environment:
+      - DOCKER_STEPCA_INIT_NAME=DataLens
+      - DOCKER_STEPCA_INIT_DNS_NAMES=localhost,step-ca
+      - DOCKER_STEPCA_INIT_REMOTE_MANAGEMENT=true
+      - DOCKER_STEPCA_INIT_ACME=true
+    networks:
+      - internal-net
+    volumes:
+      - acme-certs:/home/step
+
+  datalens:
+    extends:
+      file: ./datalens/docker-compose.yml
+      service: datalens
+    networks:
+      - internal-net
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.datalens.rule=Host(`${DOMAIN}`)'
+      - 'traefik.http.routers.datalens.entrypoints=HTTPS'
+      - 'traefik.http.routers.datalens.middlewares=authelia@docker'
+    expose:
+      - 80
+    ports: !reset []
+
+  pg-compeng:
+    extends:
+      file: ./datalens/docker-compose.yml
+      service: pg-compeng
+    networks:
+      - internal-net
+
+  control-api:
+    extends:
+      file: ./datalens/docker-compose.yml
+      service: control-api
+    depends_on:
+      - us
+    networks:
+      - internal-net
+    ports: !reset []
+
+  data-api:
+    extends:
+      file: ./datalens/docker-compose.yml
+      service: data-api
+    depends_on:
+      - us
+      - pg-compeng
+    networks:
+      - internal-net
+    ports: !reset []
+
+  pg-us:
+    extends:
+      file: ./datalens/docker-compose.yml
+      service: pg-us
+    networks:
+      - internal-net
+
+  pg-demo-connection:
+    extends:
+      file: ./datalens/docker-compose.yml
+      service: pg-demo-connection
+    networks:
+      - internal-net
+
+  us:
+    extends:
+      file: ./datalens/docker-compose.yml
+      service: us
+    depends_on:
+      - pg-us
+    networks:
+      - internal-net
+    ports: !reset []
+
+networks:
+  internal-net:
+    driver: bridge
+
+volumes:
+  acme-certs:
+  authelia-data:

@@ -1,0 +1,33 @@
+server:
+  host: 0.0.0.0
+  port: 9091
+  asset_path: /config/assets
+
+log:
+  level: debug
+
+authentication_backend:
+  file:
+    path: /config/users.yml
+  password_reset:
+    disable: true
+
+access_control:
+  default_policy: deny
+  rules:
+    - domain: datalens.dev
+      policy: one_factor
+
+session:
+  name: authelia_session
+  same_site: lax
+  expiration: 1h
+  inactivity: 5m
+
+storage:
+  local:
+    path: /data/db.sqlite3
+
+notifier:
+  filesystem:
+    filename: /data/notification.log

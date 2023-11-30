@@ -1,0 +1,6 @@
+users:
+  user:
+    disabled: false
+    displayname: 'DataLens User'
+    password: $argon2id$v=19$m=65536,t=3,p=4$bBBhH/iZOudxTvdKLVBJAQ$RkNM2eXrvWxdWhTtDWvwZmRHf9RtGmV5oaESsqMvYqM
+    email: user@datalens.dev

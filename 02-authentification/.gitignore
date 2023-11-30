@@ -1,0 +1,5 @@
+# ignore sub repo datalens-tech/datalens
+datalens
+
+.env
+root_ca.crt
