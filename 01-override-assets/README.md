@@ -27,7 +27,7 @@ Git Version Control System
 
 ### 2. Check assets for override
 
-Folder `./patch` contains same directory and files structure as UI project with custom overrides
+Folder `./patch` contains the same directory and files structure as UI project with custom overrides
 
 ### 3. Check new Dockerfile 
 
