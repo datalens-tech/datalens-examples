@@ -37,7 +37,7 @@ New `Dockerfile` contains copy of default sources from `datalens-ui` folder with
 
 All services from main compose file except `datalens-ui` were extended
 
-Service `datalens-ui` for ui build from new `Dockerfile` with resource overriding
+Service `datalens-ui` for ui is build from new `Dockerfile` with resource overriding
 
 ### 5. Build new datalens-ui container
 
