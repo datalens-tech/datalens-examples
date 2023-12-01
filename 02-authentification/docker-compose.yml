@@ -91,6 +91,12 @@ services:
       - 'traefik.http.routers.datalens.rule=Host(`${DOMAIN}`)'
       - 'traefik.http.routers.datalens.entrypoints=HTTPS'
       - 'traefik.http.routers.datalens.middlewares=authelia@docker'
+    healthcheck:
+      test: curl --fail http://localhost:80 || exit 1
+      interval: 5s
+      retries: 10
+      start_period: 5s
+      timeout: 10s
     expose:
       - 80
     ports: !reset []
