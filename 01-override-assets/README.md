@@ -33,7 +33,7 @@ Folder `./patch` contains the same directory and files structure as UI project w
 
 New `Dockerfile` contains copy of default sources from `datalens-ui` folder with replaced copies `./path` folder assets
 
-### 4. Extends main docker-compose.yml file
+### 4. Extend main docker-compose.yml file
 
 All services from main compose file except `datalens-ui` were extended
 
