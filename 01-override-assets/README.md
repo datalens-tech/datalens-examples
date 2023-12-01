@@ -27,17 +27,17 @@ Git Version Control System
 
 ### 2. Check assets for override
 
-Folder `./patch` contains same directory and files structure as UI project with custom overrides
+Folder `./patch` contains the same directory and files structure as UI project with custom overrides
 
 ### 3. Check new Dockerfile 
 
 New `Dockerfile` contains copy of default sources from `datalens-ui` folder with replaced copies `./path` folder assets
 
-### 4. Extends main docker-compose.yml file
+### 4. Extend main docker-compose.yml file
 
 All services from main compose file except `datalens-ui` were extended
 
-Service `datalens-ui` for ui build from new `Dockerfile` with resource overriding
+Service `datalens-ui` for ui is build from new `Dockerfile` with resource overriding
 
 ### 5. Build new datalens-ui container
 
