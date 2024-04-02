@@ -82,7 +82,7 @@ services:
 
   datalens:
     container_name: datalens-ui
-    image: ghcr.io/datalens-tech/datalens-ui:0.1137.0
+    image: ghcr.io/datalens-tech/datalens-ui:0.1485.0
     depends_on:
       - us
       - control-api
@@ -93,7 +93,7 @@ services:
       APP_ENV: "production"
       APP_INSTALLATION: "opensource"
       AUTH_POLICY: "disabled"
-      US_ENDPOINT: "http://us"
+      US_ENDPOINT: "http://us:8083"
       BI_API_ENDPOINT: "http://control-api:8080"
       BI_DATA_ENDPOINT: "http://data-api:8080"
       NODE_EXTRA_CA_CERTS: "/usr/local/share/ca-certificates/cert.pem"
@@ -106,13 +106,13 @@ services:
       - 'traefik.http.routers.datalens.entrypoints=HTTPS'
       - 'traefik.http.routers.datalens.middlewares=authelia@docker'
     healthcheck:
-      test: curl --fail http://localhost:80 || exit 1
+      test: curl --fail http://localhost:8080 || exit 1
       interval: 5s
       retries: 10
       start_period: 5s
       timeout: 10s
     expose:
-      - 80
+      - 8080
 
   pg-compeng:
     extends:
