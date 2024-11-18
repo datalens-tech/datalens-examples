@@ -99,7 +99,9 @@ export const ext = async (dir: string) => {
     const files = await fs.promises.readdir(dir, {recursive: true});
     files.forEach((f) => {
         const e = path.extname(f);
-        if (!FILE_EXTENSIONS.includes(e)) return;
+        if (!FILE_EXTENSIONS.includes(e)) {
+            return;
+        }
         data[e] = (data[e] || 0) + 1;
     });
 

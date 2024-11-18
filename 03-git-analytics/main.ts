@@ -70,7 +70,9 @@ const prepare = async (): Promise<PrepareType> => {
 
     const root = './repo';
 
-    if (!fs.existsSync(root)) fs.mkdirSync(root);
+    if (!fs.existsSync(root)) {
+        fs.mkdirSync(root);
+    }
 
     const cliBar = new cliProgress.SingleBar(cliProgress.Presets.shades_classic);
     // @ts-ignore
