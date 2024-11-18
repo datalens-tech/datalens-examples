@@ -159,7 +159,9 @@ const main = async () => {
 
         const {dir} = await clone({root, repo, bar});
 
-        const commits = await git.log({dir});
+        const commits = (await git.log({dir})).sort(
+            (a, b) => a.commit.author.timestamp - b.commit.author.timestamp,
+        );
 
         // @ts-ignore
         bar.options.format = '  analyze | {bar} | {percentage}% | {eta_formatted} ';
