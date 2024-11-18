@@ -4,7 +4,8 @@
   "description": "Grab git repository commits to SQLite or PostgreSQL",
   "main": "main.js",
   "scripts": {
-    "start": "tsx ./main.ts"
+    "start": "tsx ./main.ts",
+    "bun": "bun ./main.ts"
   },
   "dependencies": {
     "cli-progress": "^3.12.0",
