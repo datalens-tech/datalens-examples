@@ -87,7 +87,7 @@ const checkout = ({ref, dir}: Ref) =>
 const log = async ({dir}: Dir): Promise<Array<Log>> => {
     const r = await Promise.all([
         shell.exec(
-            `git log --reflog --pretty=format:'{"oid":"%H","commit":{"author":{"name":"%aN","email":"%aE","timestamp":%ad}}}' --date=unix`,
+            `git log --reflog --pretty=format:'{"oid":"%H","commit":{"author":{"email":"%aE","timestamp":%ad}}}' --date=unix`,
             {
                 cwd: dir || process.cwd(),
             },
