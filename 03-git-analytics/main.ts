@@ -67,6 +67,7 @@ const prepare = async (): Promise<PrepareType> => {
     );
     await db.exec('CREATE INDEX IF NOT EXISTS index_repo ON commits(repo)');
     await db.exec('CREATE INDEX IF NOT EXISTS index_email ON commits(email)');
+    await db.exec('CREATE INDEX IF NOT EXISTS index_timestamp ON commits(timestamp)');
 
     const root = './repo';
 
