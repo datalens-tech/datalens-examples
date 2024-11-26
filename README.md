@@ -10,6 +10,8 @@ Now it is available as an [Open Source project](https://datalens.tech).
 
 - [02. Add authentification layer with authelia and traefik](02-authentification/README.md)
 
+- [03. Analyze all git repository commits and save it to SQLite or PostgreSQL](03-git-analytics/README.md)
+
 ## Main repository:
 
 - [datalens-tech/datalens](https://github.com/datalens-tech/datalens)

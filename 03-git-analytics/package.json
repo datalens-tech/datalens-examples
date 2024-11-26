@@ -1,0 +1,26 @@
+{
+  "name": "datalens-git-analytics",
+  "version": "1.0.0",
+  "description": "Grab git repository commits to SQLite or PostgreSQL",
+  "main": "main.js",
+  "scripts": {
+    "start": "tsx ./main.ts",
+    "bun": "bun ./main.ts"
+  },
+  "dependencies": {
+    "cli-progress": "^3.12.0",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7",
+    "tsx": "^4.19.2"
+  },
+  "devDependencies": {
+    "@gravity-ui/eslint-config": "^2.0.0",
+    "@gravity-ui/prettier-config": "^1.0.1",
+    "@gravity-ui/tsconfig": "^1.0.0",
+    "@types/cli-progress": "^3.11.6",
+    "@types/node": "^18.19.64",
+    "eslint": "^8.35.0",
+    "prettier": "^2.3.2",
+    "typescript": "^4.9.5"
+  }
+}
