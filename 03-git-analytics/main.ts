@@ -15,6 +15,8 @@ const REPOSITORIES = [
     'https://github.com/datalens-tech/datalens',
     'https://github.com/datalens-tech/datalens-ui',
     'https://github.com/datalens-tech/datalens-us',
+    'https://github.com/datalens-tech/datalens-auth',
+    'https://github.com/datalens-tech/datalens-meta-manager',
     'https://github.com/datalens-tech/datalens-backend',
 
     'https://github.com/gravity-ui/app-builder',
