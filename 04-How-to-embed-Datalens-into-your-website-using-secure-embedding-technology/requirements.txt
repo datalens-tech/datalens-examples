@@ -1,8 +1,8 @@
 annotated-types==0.7.0
-anyio==4.4.0
+anyio==4.14.2
 click==8.1.7
 fastapi==0.114.1
-h11==0.14.0
+h11==0.16.0
 idna==3.8
 pydantic==2.9.1
 pydantic_core==2.23.3
@@ -15,4 +15,4 @@ wheel==0.38.4
 requests==2.32.3
 mangum~=0.17.0
 cryptography~=43.0.3
-pyjwt~=2.9.0
+pyjwt~=2.14.0
